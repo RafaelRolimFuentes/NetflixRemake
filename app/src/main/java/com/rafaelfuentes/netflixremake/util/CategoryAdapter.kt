@@ -13,7 +13,6 @@ class CategoryAdapter(private val categories: List<Category>, private val listen
     RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
 
     inner class CategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-
         val title = itemView.findViewById<TextView>(R.id.category_name)
         val rvMovies = itemView.findViewById<RecyclerView>(R.id.rv_movies)
 
@@ -21,7 +20,7 @@ class CategoryAdapter(private val categories: List<Category>, private val listen
             title.text = category.title
             rvMovies.layoutManager =
                 LinearLayoutManager(itemView.context, LinearLayoutManager.HORIZONTAL, false)
-            rvMovies.adapter = MovieAdapter(category.movieList, listener)
+            rvMovies.adapter = MovieAdapter(category.movie, listener)
         }
     }
 
@@ -31,7 +30,6 @@ class CategoryAdapter(private val categories: List<Category>, private val listen
 
     override fun onBindViewHolder(holder: CategoryViewHolder, position: Int) {
         holder.bind(categories[position])
-
     }
 
     override fun getItemCount() = categories.size

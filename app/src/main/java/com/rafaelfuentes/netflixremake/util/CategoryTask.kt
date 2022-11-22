@@ -3,14 +3,11 @@ package com.rafaelfuentes.netflixremake.util
 import android.os.Handler
 import android.os.Looper
 import android.util.Log
-import com.google.gson.JsonObject
 import com.rafaelfuentes.netflixremake.model.Category
 import com.rafaelfuentes.netflixremake.model.Movie
 import org.json.JSONObject
 import java.io.IOException
 import java.io.InputStream
-import java.lang.Exception
-import java.net.CacheResponse
 import java.net.URL
 import java.util.concurrent.Executors
 import javax.net.ssl.HttpsURLConnection
@@ -36,7 +33,7 @@ class CategoryTask(private val listener: Callback) {
                 val responseCode = urlConnection.responseCode
 
                 if (responseCode > 400) {
-                    throw IOException("Erro com o servidor")
+                    throw IOException("Erro na comunicação com o servidor")
                 }
 
                 inputStream = urlConnection.inputStream
@@ -47,8 +44,8 @@ class CategoryTask(private val listener: Callback) {
                 handler.post {
                     listener.getCategories(categories)
                 }
-            } catch (e: Exception) {
-                Log.e("ERROR", e.message, e)
+            } catch (e: IOException) {
+                Log.e("ERROR", e.message ?: "Erro desconhecido", e)
             } finally {
                 inputStream?.close()
                 urlConnection?.disconnect()

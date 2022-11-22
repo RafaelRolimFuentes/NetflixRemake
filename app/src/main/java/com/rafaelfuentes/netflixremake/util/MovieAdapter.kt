@@ -18,12 +18,16 @@ class MovieAdapter(private val movieList: List<Movie>, private val listener: OnC
         var coverUrl = itemView.findViewById<ImageView>(R.id.movie_cover)
 
         fun bind(movie: Movie) {
+            //Sem biblioteca externa
             MovieTask(movie.coverUrl, object : MovieTask.CoverUrl{
                 override fun getBitmap(response: Bitmap) {
                     coverUrl.setImageBitmap(response)
                 }
 
             }).execute()
+
+//            Usando a biblioteca externa do Picasso para popular as imagens
+//            Picasso.get().load(movie.coverUrl).into(coverUrl)
 
             coverUrl.setOnClickListener {
                listener.onClick(movie.id)

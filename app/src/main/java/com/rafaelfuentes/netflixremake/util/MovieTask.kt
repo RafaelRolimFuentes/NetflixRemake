@@ -4,6 +4,7 @@ import android.graphics.Bitmap
 import android.graphics.BitmapFactory
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import java.io.IOException
 import java.io.InputStream
 import java.lang.Exception
@@ -25,7 +26,6 @@ class MovieTask(private val path: String, private val listener: CoverUrl) {
             var inputStream: InputStream? = null
 
             try {
-
                 val urlRequest = URL(path)
                 urlConnection = urlRequest.openConnection() as HttpsURLConnection
                 urlConnection.connectTimeout = 2000
@@ -33,18 +33,17 @@ class MovieTask(private val path: String, private val listener: CoverUrl) {
                 val responseCode = urlConnection.responseCode
 
                 if (responseCode > 200) {
-                    throw IOException("Erro com o servidor")
+                    throw IOException("Erro na comunicação com o servidor")
                 }
 
                 inputStream = urlConnection.inputStream
-
                 val bitmap = BitmapFactory.decodeStream(inputStream)
 
                 handler.post {
                     listener.getBitmap(bitmap)
-
                 }
-            } catch (e: Exception) {
+            } catch (e: IOException) {
+                Log.e("Error", e.message ?: "Erro descohecido", e)
             } finally {
                 urlConnection?.disconnect()
                 inputStream?.close()

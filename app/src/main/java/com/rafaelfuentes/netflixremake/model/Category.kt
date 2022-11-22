@@ -1,8 +1,8 @@
 package com.rafaelfuentes.netflixremake.model
 
-import java.util.*
+import com.google.gson.annotations.SerializedName
 
 data class Category(
-    val title: String,
-    val movieList: List<Movie>
+    @SerializedName("title")val title: String,
+    @SerializedName("movie")val movie: List<Movie>
 )
