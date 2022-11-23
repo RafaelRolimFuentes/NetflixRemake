@@ -4,6 +4,7 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.view.View
 import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.rafaelfuentes.netflixremake.R
@@ -28,6 +29,7 @@ class MainActivity : AppCompatActivity(), CategoryTask.Callback, OnClick {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding?.root)
 
+        //Usando biblioteca externa
         HttpClient().getRetrofit().create(NetflixAPI::class.java).getCategories().enqueue(object : Callback<CategoryObject>{
             override fun onResponse(
                 call: Call<CategoryObject>,
@@ -38,14 +40,18 @@ class MainActivity : AppCompatActivity(), CategoryTask.Callback, OnClick {
                     getCategories(body!!.category)
 
                 }else{
-                    val errorBody = response.errorBody()
-                    showError(errorBody?.string())
+                    //Erro de chamada
+                    val error = response.errorBody()?.string()
+                    showError(error ?: "Erro desconhecido")
                 }
             }
             override fun onFailure(call: Call<CategoryObject>, t: Throwable) {
-
+                //Erro de servidor
+                binding?.mainProgress?.visibility = View.GONE
+                showError(t.message ?: "Erro interno")
             }
         })
+        //Consumindo Api sem uso de biblioteca externa
         //CategoryTask(this).execute("https://api.tiagoaguiar.co/netflixapp/home?apiKey=c717d267-7d7b-4876-853b-1645e17d588d")
     }
 
@@ -56,11 +62,13 @@ class MainActivity : AppCompatActivity(), CategoryTask.Callback, OnClick {
             it.rvCategory.adapter = adapter
         }
         adapter.notifyDataSetChanged()
+        binding?.mainProgress?.visibility = View.GONE
     }
 
     override fun onClick(movieId: Int) {
         if (movieId <= 3) {
-            val intent = Intent (this, MovieActivity::class.java)
+            val intent = Intent(this, MovieActivity::class.java)
+            intent.putExtra(MovieActivity.KEY, movieId)
             startActivity(intent)
         } else Toast.makeText(this, R.string.unavailable, Toast.LENGTH_SHORT).show()
     }

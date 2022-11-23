@@ -9,9 +9,10 @@
 
     <TextView
         android:id="@+id/category_name"
-        tools:text="Categoria 01"
+        tools:text="Categoria"
         android:textColor="@color/white"
         android:padding="3dp"
+        android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:layout_width="match_parent"

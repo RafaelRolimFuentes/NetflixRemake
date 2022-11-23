@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.rafaelfuentes.netflixremake.R
 import com.rafaelfuentes.netflixremake.model.Category
 
-class CategoryAdapter(private val categories: List<Category>, private val listener: OnClick) :
+class CategoryAdapter(private val categories: List<Category>, private val listener: OnClick? = null) :
     RecyclerView.Adapter<CategoryAdapter.CategoryViewHolder>() {
 
     inner class CategoryViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

@@ -10,7 +10,7 @@ import com.rafaelfuentes.netflixremake.R
 import com.rafaelfuentes.netflixremake.model.Movie
 import com.squareup.picasso.Picasso
 
-class MovieAdapter(private val movieList: List<Movie>, private val listener: OnClick) :
+class MovieAdapter(private val movieList: List<Movie>, private val listener: OnClick? = null) :
     RecyclerView.Adapter<MovieAdapter.MovieViewHolder>() {
 
     inner class MovieViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
@@ -19,18 +19,16 @@ class MovieAdapter(private val movieList: List<Movie>, private val listener: OnC
 
         fun bind(movie: Movie) {
             //Sem biblioteca externa
-            MovieTask(movie.coverUrl, object : MovieTask.CoverUrl{
+            MovieTask(movie.coverUrl, object : MovieTask.CoverUrl {
                 override fun getBitmap(response: Bitmap) {
                     coverUrl.setImageBitmap(response)
                 }
-
             }).execute()
 
 //            Usando a biblioteca externa do Picasso para popular as imagens
 //            Picasso.get().load(movie.coverUrl).into(coverUrl)
-
             coverUrl.setOnClickListener {
-               listener.onClick(movie.id)
+                listener?.onClick(movie.id)
             }
         }
     }
@@ -46,5 +44,4 @@ class MovieAdapter(private val movieList: List<Movie>, private val listener: OnC
     }
 
     override fun getItemCount() = movieList.size
-
 }

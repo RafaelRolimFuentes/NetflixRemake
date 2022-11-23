@@ -1,4 +1,5 @@
 <resources>
     <string name="app_name">Netflix Remake</string>
     <string name="unavailable">Filme indisponível</string>
+    <string name="similar_content">Opções Semelhantes</string>
 </resources>

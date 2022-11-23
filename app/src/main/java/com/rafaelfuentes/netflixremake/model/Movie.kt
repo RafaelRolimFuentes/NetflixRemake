@@ -4,5 +4,5 @@ import com.google.gson.annotations.SerializedName
 
 data class Movie(
     @SerializedName("id")val id: Int,
-    @SerializedName("cover_url")val coverUrl: String
+    @SerializedName("cover_url")val coverUrl: String,
 )
